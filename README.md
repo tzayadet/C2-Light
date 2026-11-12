@@ -6,7 +6,7 @@ Prototipo educativo de arquitectura cliente-servidor para estudiar check-in, col
 
 **Experimental. No apto para producción ni para redes públicas.**
 
-El código actual permite al servidor entregar comandos que el agente ejecuta mediante un shell. No implementa autenticación robusta de agentes, autorización por tarea, aislamiento del proceso ni un canal seguro completo. Aunque el proyecto utiliza Fernet en partes del código, el flujo de tareas no cifra ni autentica los mensajes de extremo a extremo. Por tanto, no debe describirse como un sistema E2E seguro.
+El código actual permite al servidor entregar comandos que el agente ejecuta mediante un shell. No implementa autenticación robusta de agentes, autorización por tarea, aislamiento del proceso ni un canal seguro completo. El código importa y crea objetos Fernet, pero no los utiliza para proteger el flujo de tareas: los mensajes no están cifrados ni autenticados de extremo a extremo. Por tanto, no debe describirse como un sistema E2E seguro.
 
 No lo ejecutes en equipos de terceros ni en redes corporativas. No expongas el servicio a Internet.
 
