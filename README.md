@@ -1,5 +1,7 @@
 # C2-Lite Lab
 
+[![Python CI](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) [![GitHub Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
+
 Prototipo educativo de arquitectura cliente-servidor para estudiar check-in, colas de tareas y comunicación entre procesos en un laboratorio aislado.
 
 ## Estado y alcance
@@ -54,10 +56,3 @@ No se han implementado estas mejoras en el prototipo; se documentan como deuda t
 ## Licencia
 
 Consulta [LICENSE](LICENSE).
-
-
-## Static project showcase
-
-Showcase source: `docs/index.html`. GitHub Pages deployment is pending repository-level Pages activation.
-
-The page is static and does not connect to a server, register agents or execute tasks. GitHub Pages must be enabled in repository settings before the workflow can publish it.
