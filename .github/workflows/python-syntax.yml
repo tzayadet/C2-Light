@@ -1,4 +1,4 @@
-name: Python syntax check
+name: C2-Lite Lab syntax check
 
 on:
   push:
