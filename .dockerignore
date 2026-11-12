@@ -1,0 +1,13 @@
+.git
+.github
+docs
+tests
+__pycache__
+.venv
+venv
+*.pyc
+*.log
+.env
+README.md
+LICENSE
+agent.py
