@@ -1,70 +1,46 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/SECURITY_LAB-C2_LITE-101010?style=for-the-badge&labelColor=050805&color=00FF41" alt="C2 Lite Lab"/>
-  <img src="https://img.shields.io/badge/STATUS-EXPERIMENTAL-101010?style=for-the-badge&labelColor=050805&color=ffbf69" alt="Experimental"/>
-</p>
-
 # C2-Lite Lab
 
-Prototipo educativo para estudiar una arquitectura cliente-servidor, el registro de agentes, las colas de tareas y la comunicación entre procesos en un laboratorio aislado.
+An experimental client/server lab for studying agent registration, task queues and process communication in an isolated environment. The public page is an architecture overview only; it does not connect to an agent or execute tasks.
 
 <p align="center">
-  <a href="https://tzayadet.github.io/C2-Light/"><strong>ARCHITECTURE SHOWCASE ↗</strong></a> ·
-  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a>
+  <a href="https://tzayadet.github.io/C2-Light/"><img src="https://img.shields.io/badge/ARCHITECTURE_SHOWCASE-OPEN-00a86b?style=flat-square" alt="Architecture showcase"></a>
+  <a href="https://github.com/tzayadet/C2-Light"><img src="https://img.shields.io/badge/SOURCE-GITHUB-161b22?style=flat-square&logo=github" alt="Source"></a>
 </p>
 
-[![Python CI](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) · [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) · [![GitHub Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
-
-> La página pública es únicamente una explicación estática de la arquitectura. No se conecta al agente ni ejecuta tareas.
+[![Python CI](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) · [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) · [![Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
 
 ## Components
 
-| File | Role |
+| Path | Purpose |
 |---|---|
-| `server.py` | API FastAPI y almacenamiento en memoria |
-| `agent.py` | Cliente experimental de check-in y polling |
-| `requirements.txt` | Dependencias Python |
-| `Dockerfile` | Imagen del servidor |
-| `docs/` | Showcase estático |
+| `server.py` | FastAPI server and in-memory storage |
+| `agent.py` | Experimental check-in and polling client |
+| `requirements.txt` | Python dependencies |
+| `Dockerfile` | Server container image |
+| `docs/` | Static architecture showcase |
 
-## Current status
+## Run locally
 
-**Experimental. No apto para producción ni para redes públicas.**
-
-El prototipo contiene un flujo en el que el servidor puede entregar comandos que el agente ejecuta mediante shell. No implementa autenticación robusta de agentes, autorización por tarea, aislamiento del proceso ni un canal seguro completo. El código importa e inicializa objetos Fernet, pero no protege el flujo de tareas de extremo a extremo. La clave compartida se entrega durante el alta a clientes no autenticados, por lo que no constituye una identidad fiable.
-
-No expongas el servicio a Internet ni lo ejecutes en equipos de terceros. Utiliza exclusivamente una VM desechable y una red de laboratorio aislada.
-
-## Local setup
-
-**Requirements:** Python 3.11+.
+**Requirements:** Python 3.11 or later.
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-Revisa el código antes de ejecutarlo. El servidor escucha en todas las interfaces por defecto; mantenlo dentro de una red de laboratorio sin rutas externas.
+Review the source before execution. The server's default bind configuration must be kept inside an isolated lab network.
 
-## Known limitations
+## Status and security limitations
 
-- Estado y claves almacenados en memoria.
-- Sin autenticación ni autorización sólidas.
-- El agente ejecuta comandos mediante shell.
-- Sin aislamiento, auditoría resistente a manipulación ni gestión de identidades.
-- El cifrado importado no protege el flujo completo de tareas.
+**Experimental. Not suitable for production or public networks.**
 
-## Next engineering steps
+The prototype includes a flow where the server can deliver commands for execution by the agent through a shell. It does not implement robust agent authentication, task-level authorisation, process isolation or a complete secure channel. Initialisation of cryptographic objects does not mean the task flow is protected end to end; the shared key is delivered during registration to unauthenticated clients and is not a trustworthy identity mechanism.
 
-1. Sustituir la ejecución de shell por un simulador de tareas no ejecutables.
-2. Eliminar la entrega de claves a clientes no autenticados.
-3. Definir identidad, autenticación y autorización por agente y tarea.
-4. Añadir pruebas de seguridad y de ciclo de vida.
+Use only in a disposable virtual machine and isolated lab network. Do not expose the service to the Internet or run it on systems belonging to others.
 
-Estos puntos son trabajo pendiente, no funcionalidades implementadas.
+## Showcase and deployment
 
-## Deployment
-
-El workflow `.github/workflows/pages.yml` publica exclusivamente `docs/` cuando GitHub Pages está configurado y la variable `ENABLE_PAGES=true` está activa.
+The static showcase explains the architecture. It does not connect to the agent, issue tasks or provide a live command interface. GitHub Pages deployment uses `.github/workflows/pages.yml`; Pages must be enabled with GitHub Actions and the `ENABLE_PAGES=true` Actions variable configured.
 
 ## License
 
-See [LICENSE](LICENSE).
+See [LICENSE](LICENSE) for the repository's licensing terms.
