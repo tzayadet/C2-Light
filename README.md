@@ -10,6 +10,10 @@ El código actual permite al servidor entregar comandos que el agente ejecuta me
 
 No lo ejecutes en equipos de terceros ni en redes corporativas. No expongas el servicio a Internet.
 
+## Publicación de la demo
+
+La página estática de arquitectura se encuentra en `docs/index.html`; no conecta con el agente ni ejecuta tareas. Para publicarla, activa GitHub Pages en **Settings → Pages → Build and deployment → Source → GitHub Actions** y crea la variable de repositorio `ENABLE_PAGES=true` en **Settings → Secrets and variables → Actions → Variables**. El workflow permanece inactivo hasta que esa configuración exista.
+
 ## Componentes
 
 - `server.py`: API FastAPI y almacenamiento en memoria.
