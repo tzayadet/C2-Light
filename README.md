@@ -40,3 +40,10 @@ Revisa el código antes de ejecutarlo y utiliza únicamente una VM desechable, a
 ## Licencia
 
 Consulta [LICENSE](LICENSE).
+
+
+## Static project showcase
+
+Architecture overview and documented security limitations: https://tzayadet.github.io/C2-Light/
+
+The page is static and does not connect to a server, register agents or execute tasks. GitHub Pages must be enabled in repository settings before the workflow can publish it.
