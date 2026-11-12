@@ -1,58 +1,70 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/SECURITY_LAB-C2_LITE-101010?style=for-the-badge&labelColor=050805&color=00FF41" alt="C2 Lite Lab"/>
+  <img src="https://img.shields.io/badge/STATUS-EXPERIMENTAL-101010?style=for-the-badge&labelColor=050805&color=ffbf69" alt="Experimental"/>
+</p>
+
 # C2-Lite Lab
 
-[![Python CI](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) [![GitHub Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
+Prototipo educativo para estudiar una arquitectura cliente-servidor, el registro de agentes, las colas de tareas y la comunicación entre procesos en un laboratorio aislado.
 
-Prototipo educativo de arquitectura cliente-servidor para estudiar check-in, colas de tareas y comunicación entre procesos en un laboratorio aislado.
+<p align="center">
+  <a href="https://tzayadet.github.io/C2-Light/"><strong>ARCHITECTURE SHOWCASE ↗</strong></a> ·
+  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a>
+</p>
 
-## Estado y alcance
+[![Python CI](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) · [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) · [![GitHub Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
+
+> La página pública es únicamente una explicación estática de la arquitectura. No se conecta al agente ni ejecuta tareas.
+
+## Components
+
+| File | Role |
+|---|---|
+| `server.py` | API FastAPI y almacenamiento en memoria |
+| `agent.py` | Cliente experimental de check-in y polling |
+| `requirements.txt` | Dependencias Python |
+| `Dockerfile` | Imagen del servidor |
+| `docs/` | Showcase estático |
+
+## Current status
 
 **Experimental. No apto para producción ni para redes públicas.**
 
-El código actual permite al servidor entregar comandos que el agente ejecuta mediante un shell. No implementa autenticación robusta de agentes, autorización por tarea, aislamiento del proceso ni un canal seguro completo. El código importa y crea objetos Fernet, pero no los utiliza para proteger el flujo de tareas: los mensajes no están cifrados ni autenticados de extremo a extremo. Por tanto, no debe describirse como un sistema E2E seguro.
+El prototipo contiene un flujo en el que el servidor puede entregar comandos que el agente ejecuta mediante shell. No implementa autenticación robusta de agentes, autorización por tarea, aislamiento del proceso ni un canal seguro completo. El código importa e inicializa objetos Fernet, pero no protege el flujo de tareas de extremo a extremo. La clave compartida se entrega durante el alta a clientes no autenticados, por lo que no constituye una identidad fiable.
 
-No lo ejecutes en equipos de terceros ni en redes corporativas. No expongas el servicio a Internet.
+No expongas el servicio a Internet ni lo ejecutes en equipos de terceros. Utiliza exclusivamente una VM desechable y una red de laboratorio aislada.
 
-## Publicación de la demo
+## Local setup
 
-La página estática de arquitectura se encuentra en `docs/index.html`; no conecta con el agente ni ejecuta tareas. Para publicarla, activa GitHub Pages en **Settings → Pages → Build and deployment → Source → GitHub Actions** y crea la variable de repositorio `ENABLE_PAGES=true` en **Settings → Secrets and variables → Actions → Variables**. El workflow permanece inactivo hasta que esa configuración exista.
-
-## Componentes
-
-- `server.py`: API FastAPI y almacenamiento en memoria.
-- `agent.py`: cliente experimental de check-in y polling.
-- `requirements.txt`: dependencias Python.
-- `Dockerfile`: imagen del servidor.
-
-## Requisitos
-
-Python 3.11 o superior. Instala las dependencias con:
+**Requirements:** Python 3.11+.
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-## Uso de laboratorio
+Revisa el código antes de ejecutarlo. El servidor escucha en todas las interfaces por defecto; mantenlo dentro de una red de laboratorio sin rutas externas.
 
-Revisa el código antes de ejecutarlo y utiliza únicamente una VM desechable, aislada y bajo tu control. El servidor escucha en todas las interfaces por defecto, por lo que debe permanecer dentro de una red de laboratorio sin rutas externas.
+## Known limitations
 
-## Limitaciones conocidas
-
-- Estado y claves en memoria.
+- Estado y claves almacenados en memoria.
 - Sin autenticación ni autorización sólidas.
 - El agente ejecuta comandos mediante shell.
-- No hay aislamiento, auditoría resistente a manipulación ni gestión de identidades.
-- El objeto Fernet del agente se inicializa con `C2_KEY`; si la variable está vacía o ausente, el agente falla antes de realizar el check-in. El servidor devuelve una clave a cualquier cliente que solicite el alta, por lo que esa clave no autentica de forma fiable al agente.
+- Sin aislamiento, auditoría resistente a manipulación ni gestión de identidades.
 - El cifrado importado no protege el flujo completo de tareas.
 
-## Prioridades antes de cualquier evolución
+## Next engineering steps
 
-1. Sustituir la ejecución arbitraria de shell por un simulador de tareas no ejecutables.
-2. Eliminar la entrega de claves compartidas a clientes no autenticados.
+1. Sustituir la ejecución de shell por un simulador de tareas no ejecutables.
+2. Eliminar la entrega de claves a clientes no autenticados.
 3. Definir identidad, autenticación y autorización por agente y tarea.
-4. Añadir pruebas de seguridad y de ciclo de vida antes de ampliar funcionalidades.
+4. Añadir pruebas de seguridad y de ciclo de vida.
 
-No se han implementado estas mejoras en el prototipo; se documentan como deuda técnica.
+Estos puntos son trabajo pendiente, no funcionalidades implementadas.
 
-## Licencia
+## Deployment
 
-Consulta [LICENSE](LICENSE).
+El workflow `.github/workflows/pages.yml` publica exclusivamente `docs/` cuando GitHub Pages está configurado y la variable `ENABLE_PAGES=true` está activa.
+
+## License
+
+See [LICENSE](LICENSE).
