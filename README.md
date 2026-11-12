@@ -9,7 +9,7 @@ A deliberately limited Python client/server lab for studying agent registration,
 
 <p align="center">
   <a href="https://github.com/tzayadet/C2-Light/blob/main/docs/index.html"><strong>SHOWCASE SOURCE</strong></a> ·
-  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a> · <sub>PAGES ACTIVATION PENDING</sub>
+  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a> · <a href="https://tzayadet.github.io/C2-Light/"><strong>LIVE SHOWCASE</strong></a>
 </p>
 
 [![Python checks](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml)
@@ -18,7 +18,9 @@ A deliberately limited Python client/server lab for studying agent registration,
 
 - Agent registration with a per-session random token.
 - Token validation for polling and result submission.
-- In-memory task queue and result collection.
+- In-memory task queue and result collection with bounded capacity.
+- Maximum of 100 registered agents, 20 queued tasks per agent and 100 retained results per agent.
+- Duplicate agent identifiers are rejected; inactive agents expire after 30 minutes.
 - Fixed `report_status` demonstration task.
 - Loopback-only server binding and client URL validation.
 - Automated tests for task restrictions and URL validation.
@@ -68,13 +70,14 @@ This version is a **simulation**, not a remote administration tool or production
 - The server binds to loopback; the client rejects non-loopback destinations.
 - Session tokens provide a basic local demonstration, not production-grade identity or transport security.
 - State is held in memory and is lost when the server stops.
+- Agent records, task queues and result history are bounded; inactive records expire after 30 minutes.
 - The API has no production administrator role, durable audit log, rate limiting or deployment hardening.
 
 Do not change the loopback restrictions or expose the service to a network. The project demonstrates API and queue mechanics, not operational command-and-control.
 
 ## Showcase and deployment
 
-The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. The Pages workflow is present, but publication is pending repository-level Pages activation. The backend runs locally and is not deployed to Pages.
+The static architecture overview is available at [GitHub Pages](https://tzayadet.github.io/C2-Light/). It does not connect to the server or run an agent. The backend runs locally and is not deployed to Pages.
 
 ## License
 
