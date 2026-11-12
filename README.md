@@ -1,4 +1,4 @@
-# C2-Lite
+# C2-Lite Lab
 
 Prototipo educativo de arquitectura cliente-servidor para estudiar check-in, colas de tareas y comunicación entre procesos en un laboratorio aislado.
 
@@ -35,7 +35,17 @@ Revisa el código antes de ejecutarlo y utiliza únicamente una VM desechable, a
 - Sin autenticación ni autorización sólidas.
 - El agente ejecuta comandos mediante shell.
 - No hay aislamiento, auditoría resistente a manipulación ni gestión de identidades.
+- El objeto Fernet del agente se inicializa con `C2_KEY`; si la variable está vacía o ausente, el agente falla antes de realizar el check-in. El servidor devuelve una clave a cualquier cliente que solicite el alta, por lo que esa clave no autentica de forma fiable al agente.
 - El cifrado importado no protege el flujo completo de tareas.
+
+## Prioridades antes de cualquier evolución
+
+1. Sustituir la ejecución arbitraria de shell por un simulador de tareas no ejecutables.
+2. Eliminar la entrega de claves compartidas a clientes no autenticados.
+3. Definir identidad, autenticación y autorización por agente y tarea.
+4. Añadir pruebas de seguridad y de ciclo de vida antes de ampliar funcionalidades.
+
+No se han implementado estas mejoras en el prototipo; se documentan como deuda técnica.
 
 ## Licencia
 
