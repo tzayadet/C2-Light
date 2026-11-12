@@ -58,6 +58,6 @@ Consulta [LICENSE](LICENSE).
 
 ## Static project showcase
 
-Architecture overview and documented security limitations: https://tzayadet.github.io/C2-Light/
+Showcase source: `docs/index.html`. GitHub Pages deployment is pending repository-level Pages activation.
 
 The page is static and does not connect to a server, register agents or execute tasks. GitHub Pages must be enabled in repository settings before the workflow can publish it.
