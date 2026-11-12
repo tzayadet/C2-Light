@@ -8,8 +8,8 @@
 A deliberately limited Python client/server lab for studying agent registration, authenticated polling, task queues and result reporting. The agent supports one fixed demonstration task and **does not execute shell commands or run arbitrary code**.
 
 <p align="center">
-  <a href="https://tzayadet.github.io/C2-Light/"><strong>ARCHITECTURE SHOWCASE ↗</strong></a> ·
-  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a>
+  <a href="https://github.com/tzayadet/C2-Light/blob/main/docs/index.html"><strong>SHOWCASE SOURCE</strong></a> ·
+  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a> · <sub>PAGES ACTIVATION PENDING</sub>
 </p>
 
 [![Python checks](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml)
@@ -74,7 +74,7 @@ Do not change the loopback restrictions or expose the service to a network. The 
 
 ## Showcase and deployment
 
-The [GitHub Pages page](https://tzayadet.github.io/C2-Light/) is a static architecture overview. It does not connect to the server or run an agent. The backend runs locally and is not deployed to Pages.
+The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. The Pages workflow is present, but publication is pending repository-level Pages activation. The backend runs locally and is not deployed to Pages.
 
 ## License
 
