@@ -11,10 +11,26 @@ AGENT_ID = os.getenv("AGENT_ID", "")
 
 
 def validate_server_url(url: str) -> str:
-    parsed = urlparse(url)
-    if parsed.scheme != "http" or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}:
-        raise ValueError("C2-Lite is restricted to an HTTP loopback server.")
-    if parsed.port not in {None, 8000}:
+    if not isinstance(url, str) or not url or len(url) > 2048:
+        raise ValueError("A valid loopback server URL is required.")
+    if any(char.isspace() or ord(char) < 32 or ord(char) == 127 for char in url):
+        raise ValueError("Server URL must not contain whitespace or control characters.")
+    try:
+        parsed = urlparse(url)
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError("Server URL is malformed.") from exc
+    if (
+        parsed.scheme != "http"
+        or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.query
+        or parsed.fragment
+        or parsed.path not in {"", "/"}
+    ):
+        raise ValueError("C2-Lite is restricted to a plain HTTP loopback URL.")
+    if port not in {None, 8000}:
         raise ValueError("C2-Lite uses the local port 8000.")
     return url.rstrip("/")
 
@@ -29,8 +45,23 @@ def run_task(task: str) -> str:
 def main() -> None:
     server = validate_server_url(SERVER)
     session = requests.Session()
-    response = session.post(f"{server}/checkin", json={"id": AGENT_ID}, timeout=5)
-    response.raise_for_status()
+    # Ignore proxy environment variables and never follow a server redirect.
+    session.trust_env = False
+
+    def request(method: str, path: str, **kwargs):
+        response = session.request(
+            method,
+            f"{server}{path}",
+            timeout=5,
+            allow_redirects=False,
+            **kwargs,
+        )
+        if 300 <= response.status_code < 400:
+            raise RuntimeError("Redirects are disabled in the loopback-only simulation.")
+        response.raise_for_status()
+        return response
+
+    response = request("POST", "/checkin", json={"id": AGENT_ID})
     registration = response.json()
     agent_id = registration["id"]
     token = registration["token"]
@@ -39,17 +70,15 @@ def main() -> None:
     print(f"[+] Simulation agent {agent_id} registered against loopback.")
     try:
         while True:
-            response = session.get(f"{server}/tasks/{agent_id}", headers=headers, timeout=5)
-            response.raise_for_status()
+            response = request("GET", f"/tasks/{agent_id}", headers=headers)
             for task in response.json():
                 output = run_task(task)
-                result = session.post(
-                    f"{server}/result/{agent_id}",
+                request(
+                    "POST",
+                    f"/result/{agent_id}",
                     json={"task": task, "output": output},
                     headers=headers,
-                    timeout=5,
                 )
-                result.raise_for_status()
             time.sleep(5)
     except KeyboardInterrupt:
         print("\n[+] Agent stopped.")
