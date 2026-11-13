@@ -87,7 +87,7 @@ Do not change the loopback restrictions or expose the service to a network. The 
 
 ## Showcase and deployment
 
-The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. The Pages workflow is configured, but a repository administrator must enable GitHub Pages with the GitHub Actions source before the public URL can be confirmed. The backend runs locally and is not deployed to Pages.
+The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. To publish the architecture showcase, enable GitHub Pages with GitHub Actions as its source and set the repository variable `ENABLE_PAGES` to `true`. Until then, the deployment job is intentionally skipped. The backend runs locally and is not deployed to Pages.
 
 ## License
 
