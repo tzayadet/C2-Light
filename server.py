@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ipaddress
 import re
 import secrets
 import time
@@ -7,10 +8,34 @@ import uuid
 from typing import Literal
 
 import uvicorn
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 app = FastAPI(title="C2-Lite Lab", version="2.0.0")
+
+
+def is_loopback_client(host: str | None) -> bool:
+    """Return whether an incoming peer address is a loopback IP."""
+    if not host:
+        return False
+    try:
+        address = ipaddress.ip_address(host)
+    except ValueError:
+        return False
+    if isinstance(address, ipaddress.IPv6Address) and address.ipv4_mapped:
+        address = address.ipv4_mapped
+    return address.is_loopback
+
+
+@app.middleware("http")
+async def restrict_to_loopback(request: Request, call_next):
+    """Enforce the loopback boundary even if Uvicorn is started with another bind."""
+    peer = request.client.host if request.client else None
+    if not is_loopback_client(peer):
+        return JSONResponse(status_code=403, content={"detail": "Loopback clients only"})
+    return await call_next(request)
+
 
 TaskName = Literal["report_status"]
 MAX_AGENTS = 100
