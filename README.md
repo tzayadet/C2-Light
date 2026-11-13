@@ -8,8 +8,8 @@
 A deliberately limited Python client/server lab for studying agent registration, authenticated polling, task queues and result reporting. The agent supports one fixed demonstration task and **does not execute shell commands or run arbitrary code**.
 
 <p align="center">
-  <a href="https://tzayadet.github.io/C2-Light/"><strong>LIVE DEMO ↗</strong></a> ·
-  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a>
+  <a href="docs/index.html"><strong>SHOWCASE SOURCE</strong></a> ·
+  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a> · <sub>PAGES ACTIVATION REQUIRED</sub>
 </p>
 
 [![Python checks](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) · [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) · [![Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
