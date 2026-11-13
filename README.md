@@ -8,7 +8,7 @@
 A deliberately limited Python client/server lab for studying agent registration, authenticated polling, task queues and result reporting. The agent supports one fixed demonstration task and **does not execute shell commands or run arbitrary code**.
 
 <p align="center">
-  <a href="https://github.com/tzayadet/C2-Light/blob/main/docs/index.html"><strong>SHOWCASE SOURCE ↗</strong></a> ·
+  <a href="https://tzayadet.github.io/C2-Light/"><strong>LIVE DEMO ↗</strong></a> ·
   <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a>
 </p>
 
@@ -80,7 +80,7 @@ Do not change the loopback restrictions or expose the service to a network. The 
 
 ## Showcase
 
-The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. To publish the architecture showcase, enable GitHub Pages with GitHub Actions as its source and set the repository variable `ENABLE_PAGES` to `true`. Until then, the deployment job is intentionally skipped. The backend runs locally and is not deployed to Pages.
+The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. The architecture showcase is published as a static page. It does not connect to the local server or execute an agent. The backend runs locally and is not deployed to Pages.
 
 ## License
 
