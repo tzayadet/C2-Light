@@ -14,7 +14,7 @@ A deliberately limited Python client/server lab for studying agent registration,
 
 [![Python checks](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) · [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) · [![Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
 
-## Features
+## Overview
 
 - Agent registration with a per-session random token.
 - Token validation for polling and result submission.
@@ -64,14 +64,7 @@ python -m unittest discover -s tests -v
 python -m compileall -q .
 ```
 
-## Tests
-
-```bash
-python -m unittest discover -s tests -v
-python -m compileall -q .
-```
-
-## Security model and limitations
+## Scope and limitations
 
 This version is a **simulation**, not a remote administration tool or production C2 framework.
 
@@ -85,7 +78,7 @@ This version is a **simulation**, not a remote administration tool or production
 
 Do not change the loopback restrictions or expose the service to a network. The project demonstrates API and queue mechanics, not operational command-and-control.
 
-## Showcase and deployment
+## Showcase
 
 The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. To publish the architecture showcase, enable GitHub Pages with GitHub Actions as its source and set the repository variable `ENABLE_PAGES` to `true`. Until then, the deployment job is intentionally skipped. The backend runs locally and is not deployed to Pages.
 
