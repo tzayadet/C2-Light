@@ -8,11 +8,11 @@
 A deliberately limited Python client/server lab for studying agent registration, authenticated polling, task queues and result reporting. The agent supports one fixed demonstration task and **does not execute shell commands or run arbitrary code**.
 
 <p align="center">
-  <a href="https://github.com/tzayadet/C2-Light/blob/main/docs/index.html"><strong>SHOWCASE SOURCE</strong></a> ·
-  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a> · <a href="docs/index.html"><strong>SHOWCASE SOURCE</strong></a> · <sub>PAGES ACTIVATION PENDING</sub>
+  <a href="https://github.com/tzayadet/C2-Light/blob/main/docs/index.html"><strong>SHOWCASE SOURCE ↗</strong></a> ·
+  <a href="https://github.com/tzayadet/C2-Light"><strong>SOURCE CODE</strong></a>
 </p>
 
-[![Python checks](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml)
+[![Python checks](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/python-syntax.yml) · [![Container build](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/container-build.yml) · [![Pages](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml/badge.svg)](https://github.com/tzayadet/C2-Light/actions/workflows/pages.yml)
 
 ## Features
 
@@ -22,7 +22,8 @@ A deliberately limited Python client/server lab for studying agent registration,
 - Maximum of 100 registered agents, 20 queued tasks per agent and 100 retained results per agent.
 - Duplicate agent identifiers are rejected; inactive agents expire after 30 minutes.
 - Fixed `report_status` demonstration task.
-- Loopback-only server binding and client URL validation.
+- Server-side middleware rejects non-loopback peers, even if the ASGI server is started with a wider bind address.
+- Client accepts only a plain HTTP loopback base URL, disables environment proxies and refuses redirects.
 - Automated tests for task restrictions and URL validation.
 
 ## Run locally
@@ -54,6 +55,15 @@ The server listens on `127.0.0.1:8000`. The agent accepts only a loopback HTTP U
 | `docs/` | Static architecture showcase |
 | `.github/workflows/` | Syntax and unit-test workflow |
 
+## Validation
+
+The test suite covers fixed task restrictions, token checks, bounded queues, URL validation and loopback peer enforcement:
+
+```bash
+python -m unittest discover -s tests -v
+python -m compileall -q .
+```
+
 ## Tests
 
 ```bash
@@ -71,13 +81,13 @@ This version is a **simulation**, not a remote administration tool or production
 - Session tokens provide a basic local demonstration, not production-grade identity or transport security.
 - State is held in memory and is lost when the server stops.
 - Agent records, task queues and result history are bounded; inactive records expire after 30 minutes.
-- The API has no production administrator role, durable audit log, rate limiting or deployment hardening.
+- The API has no production administrator role, durable audit log, rate limiting or deployment hardening. The loopback middleware is an additional guard, not a substitute for host firewall rules.
 
 Do not change the loopback restrictions or expose the service to a network. The project demonstrates API and queue mechanics, not operational command-and-control.
 
 ## Showcase and deployment
 
-The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. The Pages workflow is ready, but a repository administrator must enable GitHub Pages with the GitHub Actions source. The backend runs locally and is not deployed to Pages.
+The static architecture overview is available in [docs/index.html](docs/index.html). It does not connect to the server or run an agent. The Pages workflow is configured, but a repository administrator must enable GitHub Pages with the GitHub Actions source before the public URL can be confirmed. The backend runs locally and is not deployed to Pages.
 
 ## License
 
