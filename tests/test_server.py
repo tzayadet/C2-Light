@@ -10,6 +10,14 @@ class ServerSafetyTests(unittest.TestCase):
     def setUp(self):
         server.agents.clear()
 
+    def test_loopback_peer_validation(self):
+        for address in ("127.0.0.1", "::1", "::ffff:127.0.0.1"):
+            with self.subTest(address=address):
+                self.assertTrue(server.is_loopback_client(address))
+        for address in ("192.0.2.10", "2001:db8::1", None, "not-an-ip"):
+            with self.subTest(address=address):
+                self.assertFalse(server.is_loopback_client(address))
+
     def test_checkin_issues_token_and_fixed_status_task(self):
         registration = server.checkin(server.CheckIn(id="test-agent"))
         self.assertTrue(registration["token"])
